@@ -3,7 +3,8 @@ package com.mohit.corepatterns.singleton;
 import java.io.Serializable;
 
 /*Problem with Serializable => creates new objects*/
-public class DateUtil implements Serializable {
+/*The object should not be clonable*/
+public class DateUtil implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 	private static volatile DateUtil instance;
@@ -24,8 +25,17 @@ public class DateUtil implements Serializable {
 	
 	//for serializable 
 	//readResolve method is chceked for ObjectInputStream while returning
-	public Object readResolve() {
+	protected Object readResolve() {
 		return instance; //return the same instance
 	}
+
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+//		return super.clone();
+		throw new CloneNotSupportedException();
+	}
+	
+	
 	
 }
